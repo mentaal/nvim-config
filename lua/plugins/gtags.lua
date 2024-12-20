@@ -1,0 +1,5 @@
+return {
+  {
+    'ivechan/gtags.vim',
+  },
+}

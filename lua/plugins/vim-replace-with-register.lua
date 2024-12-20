@@ -1,0 +1,5 @@
+return {
+    {
+      "inkarkat/vim-ReplaceWithRegister",
+    },
+}

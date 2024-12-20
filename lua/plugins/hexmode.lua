@@ -1,0 +1,5 @@
+return {
+    {
+      "fidian/hexmode",
+    },
+}
