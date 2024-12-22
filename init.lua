@@ -338,3 +338,18 @@ nmap(',gr', ':Gtags -r <C-R><C-W><CR>')
 nmap(',gg', ':Gtags -g <C-R><C-W><CR>')
 nmap(',j', ':.!jira_url -j<CR>')
 nmap(',J', ':.!jira_url<CR>')
+
+-- use purescript
+require('lspconfig').purescriptls.setup {
+  -- Your personal on_attach function referenced before to include
+  -- keymaps & other ls options
+  -- on_attach = on_attach,
+  settings = {
+    purescript = {
+      addSpagoSources = true -- e.g. any purescript language-server config here
+    }
+  },
+  flags = {
+    debounce_text_changes = 150,
+  }
+}
