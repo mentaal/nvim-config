@@ -1,4 +1,3 @@
--- git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
 require("config.lazy")
 
 -- xnoremap il ^og_
@@ -51,6 +50,7 @@ vim.opt.shiftwidth = 4
 vim.opt.textwidth = 80
 vim.opt.colorcolumn = '+1'
 vim.opt.tabstop = 4
+vim.opt.mouse = ""
 nmap('>', ':tabn<CR>')
 nmap('<', ':tabp<CR>')
 nmap(',l', ':source ~/.config/nvim/init.lua<cr>')
@@ -105,8 +105,8 @@ nmap('<C-e>', '3<C-e>')
 nmap('<C-y>', '3<C-y>')
 
 -- add date shortcuts
-nmap(',d', ':r! date -j "+\\%d.\\%m.\\%Y"<cr>')
-nmap(',b', ':r! date -j "+[\\%d.\\%b.\\%Y]"<cr>')
+nmap(',d', ':r! date "+\\%d.\\%m.\\%Y"<cr>')
+nmap(',b', ':r! date "+[\\%d.\\%b.\\%Y]"<cr>')
 
 -- yank matching
 nmap('ym', 'qyq:%s//\\=setreg("Y", submatch(0), "V")/gn')
@@ -156,28 +156,10 @@ telescope.setup {
 
 -- don't forget to load the extension
 telescope.load_extension("live_grep_args")
-
-
-
--- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
- require('lspconfig').pyright.setup{
-   capabilities = capabilities
- }
-
--- Configure `ruff-lsp`.
--- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp
--- For the default config, along with instructions on how to customize the settings
-require('lspconfig').ruff.setup {
-  -- capabilities = capabilities,
-  -- init_options = {
-  --   settings = {
-  --     -- Any extra CLI arguments for `ruff` go here.
-  --     args = {},
-  --   }
-  -- }
-}
+vim.lsp.enable({
+'pyright',
+'ruff',
+})
 
 -- https://vonheikemen.github.io/devlog/tools/neovim-lsp-client-guide/
 -- you can add this in your init.lua
