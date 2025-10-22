@@ -21,6 +21,9 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
+
+require("dap-python").setup("uv")
+
 -- xnoremap il ^og_
 -- onoremap il :normal vil<CR>
 vim.cmd("xnoremap il ^og_")
