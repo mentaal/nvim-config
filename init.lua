@@ -1,4 +1,25 @@
+-- git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
 require("config.lazy")
+
+require("lazy").setup({
+  {"nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate"},
+  {
+      "vhyrro/luarocks.nvim",
+      priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+      config = true,
+  }
+})
+
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
 
 -- xnoremap il ^og_
 -- onoremap il :normal vil<CR>
@@ -20,6 +41,7 @@ function imap(shortcut, command)
 end
 
 vim.cmd("colorscheme gruvbox")
+vim.opt.expandtab = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.ruler = true
@@ -156,14 +178,38 @@ telescope.setup {
 
 -- don't forget to load the extension
 telescope.load_extension("live_grep_args")
+
 vim.lsp.enable({
-'pyright',
-'ruff',
+    'pyright',
+    'ruff',
 })
+
+
+-- -- Set up lspconfig.
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+  -- require('lspconfig').pyright.setup{
+  --   capabilities = capabilities
+  -- }
+
+-- -- Configure `ruff-lsp`.
+-- -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp
+-- -- For the default config, along with instructions on how to customize the settings
+-- require('lspconfig').ruff.setup {
+--   -- capabilities = capabilities,
+--   -- init_options = {
+--   --   settings = {
+--   --     -- Any extra CLI arguments for `ruff` go here.
+--   --     args = {},
+--   --   }
+--   -- }
+-- }
 
 -- https://vonheikemen.github.io/devlog/tools/neovim-lsp-client-guide/
 -- you can add this in your init.lua
 -- (note: diagnostics are not exclusive to LSP)
+--
+vim.deprecate = function() end 
 
 -- Show diagnostics in a floating window
 vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
@@ -321,17 +367,18 @@ nmap(',gg', ':Gtags -g <C-R><C-W><CR>')
 nmap(',j', ':.!jira_url -j<CR>')
 nmap(',J', ':.!jira_url<CR>')
 
--- use purescript
-require('lspconfig').purescriptls.setup {
-  -- Your personal on_attach function referenced before to include
-  -- keymaps & other ls options
-  -- on_attach = on_attach,
-  settings = {
-    purescript = {
-      addSpagoSources = true -- e.g. any purescript language-server config here
-    }
-  },
-  flags = {
-    debounce_text_changes = 150,
-  }
-}
+-- -- use purescript
+-- require('lspconfig').purescriptls.setup {
+--   -- Your personal on_attach function referenced before to include
+--   -- keymaps & other ls options
+--   -- on_attach = on_attach,
+--   settings = {
+--     purescript = {
+--       addSpagoSources = true -- e.g. any purescript language-server config here
+--     }
+--   },
+--   flags = {
+--     debounce_text_changes = 150,
+--   }
+-- }
+--
