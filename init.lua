@@ -433,3 +433,10 @@ dap.configurations.c = {
 dap.configurations.cpp = dap.configurations.c
 dap.configurations.rust = dap.configurations.c
 vim.g.editorconfig = false
+
+-- https://github.com/inkarkat/vim-ReplaceWithRegister
+--In Neovim, there's an overlap with LSP-related commands, and if you want to
+--use the plugin's gr{motion} with inner/outer text objects, you need to remove
+--(and optionally remap) the gra and gri commands:
+vim.keymap.del("n", "gra")
+vim.keymap.del("n", "gri")
