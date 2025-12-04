@@ -1,5 +1,0 @@
-return {
-  {
-    'ivechan/telescope-gtags',
-  },
-}

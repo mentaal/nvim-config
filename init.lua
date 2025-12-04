@@ -1,14 +1,14 @@
 -- git clone https://github.com/neovim/nvim-lspconfig ~/.config/nvim/pack/nvim/start/nvim-lspconfig
 require("config.lazy")
 
-require("lazy").setup({
-  {"nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate"},
-  {
-      "vhyrro/luarocks.nvim",
-      priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
-      config = true,
-  }
-})
+-- require("lazy").setup({
+--   {"nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate"},
+--   {
+--       "vhyrro/luarocks.nvim",
+--       priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+--       config = true,
+--   }
+-- })
 
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -75,10 +75,10 @@ vim.opt.shiftwidth = 4
 vim.opt.textwidth = 80
 vim.opt.colorcolumn = '+1'
 vim.opt.tabstop = 4
+--vim.o.fileformats="unix"
 vim.opt.mouse = ""
 nmap('>', ':tabn<CR>')
 nmap('<', ':tabp<CR>')
-nmap(',l', ':source ~/.config/nvim/init.lua<cr>')
 nmap(',v', ':edit ~/.config/nvim/init.lua<cr>')
 
 nmap('<C-J>', '<C-W>j')
@@ -432,3 +432,4 @@ dap.configurations.c = {
 }
 dap.configurations.cpp = dap.configurations.c
 dap.configurations.rust = dap.configurations.c
+vim.g.editorconfig = false
