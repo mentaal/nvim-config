@@ -440,3 +440,4 @@ vim.g.editorconfig = false
 --(and optionally remap) the gra and gri commands:
 vim.keymap.del("n", "gra")
 vim.keymap.del("n", "gri")
+vim.keymap.del("n", "grt")
