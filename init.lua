@@ -18,6 +18,13 @@ require'nvim-treesitter.configs'.setup {
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
+    use_languagetree = false,
+    disable = function(_, bufnr)
+        local buf_name = vim.api.nvim_buf_get_name(bufnr)
+        local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
+        return file_size > 256 * 1024
+    end,
+
   },
 }
 
@@ -143,7 +150,18 @@ nmap('ym', 'qyq:%s//\\=setreg("Y", submatch(0), "V")/gn')
 -- configure telescope
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
--- vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+-- invalid key search_dirs, I don't know why
+-- vim.keymap.set('n', '<leader>fp', builtin.find_files, {search_dirs={"~/.cache/arm/packs"}})
+-- vim.keymap.set('n', '<leader>fp', builtin.find_files, {search_dirs={"~/.cache/arm/packs"}})
+-- vim.keymap.set('n', '<leader>fp', builtin.find_files, {search_dirs={"~/.cache"}})
+-- :=require('telescope.builtin').find_files({search_dirs={"~/.cache/arm/packs"}})
+-- nmap('<leader>fp', ':Telescope find_files search_dirs={"~/.cache/arm/packs"}<cr>')
+vim.keymap.set('n', '<leader>fp', ':Telescope find_files search_dirs={"~/.cache"}<cr>')
+-- vim.keymap.set('n', '<leader>fp', builtin.find_files, { search_dirs = {"~/.cache/arm/packs"} })
+-- vim.keymap.set('n', '<leader>fp', builtin.find_files({search_dirs={"~/.cache/arm/packs"}}))
+
+
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fo', builtin.oldfiles, {})
@@ -387,51 +405,51 @@ nmap(',J', ':.!jira_url<CR>')
 --
 
 
-local dap = require("dap")
-dap.adapters.gdb = {
-    id = 'gdb',
-    type = 'executable',
-    command = '/opt/st/stm32cubeclt_1.19.0/GNU-tools-for-STM32/bin/arm-none-eabi-gdb',
-    args = { '--quiet', '--interpreter=dap' },
-}
-dap.configurations.c = {
-  {
-    name = "Launch",
-    type = "gdb",
-    request = "launch",
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    args = {}, -- provide arguments if needed
-    cwd = "${workspaceFolder}",
-    stopAtBeginningOfMainSubprogram = false,
-  },
-  {
-    name = "Select and attach to process",
-    type = "gdb",
-    request = "attach",
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    pid = function()
-      local name = vim.fn.input('Executable name (filter): ')
-      return require("dap.utils").pick_process({ filter = name })
-    end,
-    cwd = '${workspaceFolder}'
-  },
-  {
-    name = 'Attach to gdbserver :3333',
-    type = 'gdb',
-    request = 'attach',
-    target = 'localhost:3333',
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    cwd = '${workspaceFolder}'
-  }
-}
-dap.configurations.cpp = dap.configurations.c
-dap.configurations.rust = dap.configurations.c
+-- local dap = require("dap")
+-- dap.adapters.gdb = {
+--     id = 'gdb',
+--     type = 'executable',
+--     command = '/opt/st/stm32cubeclt_1.19.0/GNU-tools-for-STM32/bin/arm-none-eabi-gdb',
+--     args = { '--quiet', '--interpreter=dap' },
+-- }
+-- dap.configurations.c = {
+--   {
+--     name = "Launch",
+--     type = "gdb",
+--     request = "launch",
+--     program = function()
+--       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--     end,
+--     args = {}, -- provide arguments if needed
+--     cwd = "${workspaceFolder}",
+--     stopAtBeginningOfMainSubprogram = false,
+--   },
+--   {
+--     name = "Select and attach to process",
+--     type = "gdb",
+--     request = "attach",
+--     program = function()
+--       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--     end,
+--     pid = function()
+--       local name = vim.fn.input('Executable name (filter): ')
+--       return require("dap.utils").pick_process({ filter = name })
+--     end,
+--     cwd = '${workspaceFolder}'
+--   },
+--   {
+--     name = 'Attach to gdbserver :3333',
+--     type = 'gdb',
+--     request = 'attach',
+--     target = 'localhost:3333',
+--     program = function()
+--       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--     end,
+--     cwd = '${workspaceFolder}'
+--   }
+-- }
+-- dap.configurations.cpp = dap.configurations.c
+-- dap.configurations.rust = dap.configurations.c
 vim.g.editorconfig = false
 
 -- https://github.com/inkarkat/vim-ReplaceWithRegister
