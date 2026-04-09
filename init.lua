@@ -115,6 +115,7 @@ nmap(',pL', ':let @p = join([expand("%:p"), line(".")], ":")<cr>')
 nmap('<leader>o', ':lcd %:p:h<cr>')
 nmap('<leader>n', ':set list!<CR>')
 nmap(',e', ':Ex<cr>')
+nmap(',n', ':let @p = expand("%:t")<cr>"pp')
 
 vim.api.nvim_exec(
 [[
